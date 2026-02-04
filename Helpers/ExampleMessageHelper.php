@@ -73,7 +73,7 @@ class ExampleMessageHelper
         $exampleUrl = $this->buildExampleUrl('/products/samsung-galaxy-s23');
         
         $message = [
-            "💬 Новий коментар",
+            "💬 Додано коментар",
             "",
             "Від: Леся Українка",
             "Email: lesya.ukrainka@example.com",
