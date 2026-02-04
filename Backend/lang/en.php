@@ -1,0 +1,32 @@
+<?php
+
+$lang['sviat_telegram_notifier_title'] = 'Telegram Notifications';
+$lang['sviat_telegram_notifier_settings_title'] = 'Settings';
+$lang['sviat_telegram_notifier_enable'] = 'Enable notifications';
+$lang['sviat_telegram_notifier_bot_token'] = 'Bot Token';
+$lang['sviat_telegram_notifier_bot_token_hint'] = 'Bot token obtained from @BotFather';
+$lang['sviat_telegram_notifier_chat_id'] = 'Chat ID';
+$lang['sviat_telegram_notifier_chat_id_hint'] = 'Chat or channel ID where messages will be sent';
+$lang['sviat_telegram_notifier_example_title'] = 'Message Example';
+$lang['sviat_telegram_notifier_order_notify_title'] = 'New Order';
+$lang['sviat_telegram_notifier_order_notify_enable'] = 'Enable notifications';
+$lang['sviat_telegram_notifier_comment_notify_title'] = 'New Comment';
+$lang['sviat_telegram_notifier_comment_notify_enable'] = 'Enable notifications';
+$lang['sviat_telegram_notifier_feedback_notify_title'] = 'Feedback';
+$lang['sviat_telegram_notifier_feedback_notify_enable'] = 'Enable notifications';
+$lang['sviat_telegram_notifier_callback_notify_title'] = 'Callback Request';
+$lang['sviat_telegram_notifier_callback_notify_enable'] = 'Enable notifications';
+$lang['sviat_telegram_notifier_product_format'] = 'Product Display Format';
+$lang['sviat_telegram_notifier_format_name_only'] = 'Name';
+$lang['sviat_telegram_notifier_format_name_variant'] = 'Name (variant)';
+$lang['sviat_telegram_notifier_format_name_sku'] = 'Name, SKU';
+$lang['sviat_telegram_notifier_format_name_variant_sku'] = 'Name (variant), SKU';
+$lang['sviat_telegram_notifier_error_empty_token'] = 'Bot token cannot be empty';
+$lang['sviat_telegram_notifier_error_invalid_token'] = 'Invalid token format. Token must start with "bot" and contain a colon (e.g., bot123456789:ABCdefGHIjklMNOpqrsTUVwxyz)';
+$lang['sviat_telegram_notifier_error_empty_chat_id'] = 'Chat ID cannot be empty';
+$lang['sviat_telegram_notifier_error_invalid_chat_id'] = 'Invalid Chat ID format. Must start with "-" and contain only digits (e.g., -1001234567890) or be a channel link starting with "@" (e.g., @channelname)';
+$lang['sviat_telegram_notifier_docs_title'] = 'Documentation';
+$lang['sviat_telegram_notifier_docs_bot_token'] = 'How to get Bot Token:';
+$lang['sviat_telegram_notifier_docs_bot_token_text'] = '1. Open Telegram and find @BotFather<br>2. Send the /newbot command<br>3. Enter the name and username for the bot<br>4. Copy the received token (format: bot123456789:ABCdefGHIjklMNOpqrsTUVwxyz)<br><i>Note: keep the token in a safe place, it provides full access to your bot.</i>';
+$lang['sviat_telegram_notifier_docs_chat_id'] = 'How to get Chat ID:';
+$lang['sviat_telegram_notifier_docs_chat_id_text'] = '1. For personal chat: find @userinfobot and send it a message to find out your user ID.<br>2. For group/channel:<br>&nbsp;&nbsp;a) Add the bot to the group/channel.<br>&nbsp;&nbsp;b) Send any message in the group/channel.<br>3. Use @getidsbot or other bots to get the ID.<br>4. Chat ID for groups/channels usually starts with -100 (e.g., -1001234567890).';

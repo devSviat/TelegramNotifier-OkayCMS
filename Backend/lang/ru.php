@@ -1,0 +1,32 @@
+<?php
+
+$lang['sviat_telegram_notifier_title'] = 'Telegram уведомления';
+$lang['sviat_telegram_notifier_settings_title'] = 'Настройки';
+$lang['sviat_telegram_notifier_enable'] = 'Включить уведомления';
+$lang['sviat_telegram_notifier_bot_token'] = 'Bot Token';
+$lang['sviat_telegram_notifier_bot_token_hint'] = 'Токен бота полученный от @BotFather';
+$lang['sviat_telegram_notifier_chat_id'] = 'Chat ID';
+$lang['sviat_telegram_notifier_chat_id_hint'] = 'ID чата или канала куда будут отправляться сообщения';
+$lang['sviat_telegram_notifier_example_title'] = 'Пример сообщения';
+$lang['sviat_telegram_notifier_order_notify_title'] = 'Новый заказ';
+$lang['sviat_telegram_notifier_order_notify_enable'] = 'Включить уведомления';
+$lang['sviat_telegram_notifier_comment_notify_title'] = 'Новый комментарий';
+$lang['sviat_telegram_notifier_comment_notify_enable'] = 'Включить уведомления';
+$lang['sviat_telegram_notifier_feedback_notify_title'] = 'Обратная связь';
+$lang['sviat_telegram_notifier_feedback_notify_enable'] = 'Включить уведомления';
+$lang['sviat_telegram_notifier_callback_notify_title'] = 'Заявка на звонок';
+$lang['sviat_telegram_notifier_callback_notify_enable'] = 'Включить уведомления';
+$lang['sviat_telegram_notifier_product_format'] = 'Формат отображения товара';
+$lang['sviat_telegram_notifier_format_name_only'] = 'Название';
+$lang['sviat_telegram_notifier_format_name_variant'] = 'Название (вариант)';
+$lang['sviat_telegram_notifier_format_name_sku'] = 'Название, артикул';
+$lang['sviat_telegram_notifier_format_name_variant_sku'] = 'Название (вариант), артикул';
+$lang['sviat_telegram_notifier_error_empty_token'] = 'Токен бота не может быть пустым';
+$lang['sviat_telegram_notifier_error_invalid_token'] = 'Неверный формат токена. Токен должен начинаться с bot и содержать двоеточие (например: bot123456789:ABCdefGHIjklMNOpqrsTUVwxyz)';
+$lang['sviat_telegram_notifier_error_empty_chat_id'] = 'Chat ID не может быть пустым';
+$lang['sviat_telegram_notifier_error_invalid_chat_id'] = 'Неверный формат Chat ID. Должен начинаться с "-" и содержать только цифры (например: -1001234567890) или быть ссылкой на канал начинающейся с "@" (например: @channelname)';
+$lang['sviat_telegram_notifier_docs_title'] = 'Документация';
+$lang['sviat_telegram_notifier_docs_bot_token'] = 'Как получить Bot Token:';
+$lang['sviat_telegram_notifier_docs_bot_token_text'] = '1. Откройте Telegram и найдите @BotFather<br>2. Отправьте команду /newbot<br>3. Введите название и username для бота<br>4. Скопируйте полученный токен (формат: bot123456789:ABCdefGHIjklMNOpqrsTUVwxyz)<br><i>Примечание: сохраните токен в безопасном месте, он предоставляет полный доступ к вашему боту.</i>';
+$lang['sviat_telegram_notifier_docs_chat_id'] = 'Как получить Chat ID:';
+$lang['sviat_telegram_notifier_docs_chat_id_text'] = '1. Для личного чата: найдите @userinfobot и отправьте ему сообщение, чтобы узнать свой user ID.<br>2. Для группы/канала:<br>&nbsp;&nbsp;a) Добавьте бота в группу/канал.<br>&nbsp;&nbsp;b) Отправьте любое сообщение в группе/канале.<br>3. Используйте @getidsbot или другие боты для получения ID.<br>4. Chat ID для групп/каналов обычно начинается с -100 (например: -1001234567890).';

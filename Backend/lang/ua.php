@@ -1,0 +1,32 @@
+<?php
+
+$lang['sviat_telegram_notifier_title'] = 'Telegram сповіщення';
+$lang['sviat_telegram_notifier_settings_title'] = 'Налаштування';
+$lang['sviat_telegram_notifier_enable'] = 'Увімкнути сповіщення';
+$lang['sviat_telegram_notifier_bot_token'] = 'Bot Token';
+$lang['sviat_telegram_notifier_bot_token_hint'] = 'Токен бота отриманий від @BotFather';
+$lang['sviat_telegram_notifier_chat_id'] = 'Chat ID';
+$lang['sviat_telegram_notifier_chat_id_hint'] = 'ID чату або каналу куди відправлятитимуться повідомлення';
+$lang['sviat_telegram_notifier_example_title'] = 'Приклад повідомлення';
+$lang['sviat_telegram_notifier_order_notify_title'] = 'Нове замовлення';
+$lang['sviat_telegram_notifier_order_notify_enable'] = 'Увімкнути сповіщення';
+$lang['sviat_telegram_notifier_comment_notify_title'] = 'Новий коментар';
+$lang['sviat_telegram_notifier_comment_notify_enable'] = 'Увімкнути сповіщення';
+$lang['sviat_telegram_notifier_feedback_notify_title'] = 'Зворотний зв\'язок';
+$lang['sviat_telegram_notifier_feedback_notify_enable'] = 'Увімкнути сповіщення';
+$lang['sviat_telegram_notifier_callback_notify_title'] = 'Заявка на дзвінок';
+$lang['sviat_telegram_notifier_callback_notify_enable'] = 'Увімкнути сповіщення';
+$lang['sviat_telegram_notifier_product_format'] = 'Формат відображення товару';
+$lang['sviat_telegram_notifier_format_name_only'] = 'Назва';
+$lang['sviat_telegram_notifier_format_name_variant'] = 'Назва (варіант)';
+$lang['sviat_telegram_notifier_format_name_sku'] = 'Назва, артикул';
+$lang['sviat_telegram_notifier_format_name_variant_sku'] = 'Назва (варіант), артикул';
+$lang['sviat_telegram_notifier_error_empty_token'] = 'Токен бота не може бути порожнім';
+$lang['sviat_telegram_notifier_error_invalid_token'] = 'Невірний формат токену. Токен повинен починатися з bot та містити двокрапку (наприклад: bot123456789:ABCdefGHIjklMNOpqrsTUVwxyz)';
+$lang['sviat_telegram_notifier_error_empty_chat_id'] = 'Chat ID не може бути порожнім';
+$lang['sviat_telegram_notifier_error_invalid_chat_id'] = 'Невірний формат Chat ID. Має починатися з "-" та містити тільки цифри (наприклад: -1001234567890) або бути посиланням на канал що починається з "@" (наприклад: @channelname)';
+$lang['sviat_telegram_notifier_docs_title'] = 'Документація';
+$lang['sviat_telegram_notifier_docs_bot_token'] = 'Як отримати Bot Token:';
+$lang['sviat_telegram_notifier_docs_bot_token_text'] = '1. Відкрийте Telegram та знайдіть @BotFather<br>2. Надішліть команду /newbot<br>3. Введіть назву та username для бота<br>4. Скопіюйте отриманий токен (формат: bot123456789:ABCdefGHIjklMNOpqrsTUVwxyz)<br><i>Примітка: збережіть токен у безпечному місці, він надає повний доступ до вашого бота.</i>';
+$lang['sviat_telegram_notifier_docs_chat_id'] = 'Як отримати Chat ID:';
+$lang['sviat_telegram_notifier_docs_chat_id_text'] = '1. Для особистого чату: знайдіть @userinfobot та надішліть йому повідомлення, щоб дізнатися свій user ID.<br>2. Для групи/каналу:<br>&nbsp;&nbsp;a) Додайте бота до групи/каналу.<br>&nbsp;&nbsp;b) Надішліть будь-яке повідомлення у групі/каналі.<br>3. Використайте @getidsbot або інші боти для отримання ID.<br>4. Chat ID для груп/каналів зазвичай починається з -100 (наприклад: -1001234567890).';

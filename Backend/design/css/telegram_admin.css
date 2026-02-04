@@ -1,0 +1,59 @@
+.telegram_message_preview {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    border: 1px solid #ddd;
+}
+
+.telegram-error-message {
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #f74c4c;
+    border-radius: 4px;
+}
+
+#bot_token.is-invalid,
+#chat_id.is-invalid {
+    border-color: #f74c4c;
+    background-color: #fff5f5;
+}
+
+#bot_token.is-invalid:focus,
+#chat_id.is-invalid:focus {
+    border-color: #f74c4c;
+    box-shadow: 0 0 0 0.2rem rgba(247, 76, 76, 0.25);
+    background-color: #fff;
+}
+
+.heading_box--switch-right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.heading_box--switch-right > span {
+    flex: 1;
+}
+
+.heading_box--switch-right .switch {
+    margin-left: auto;
+}
+
+.telegram-docs-title {
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 0.5rem;
+}
+
+.telegram-docs-text {
+    color: #666;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
