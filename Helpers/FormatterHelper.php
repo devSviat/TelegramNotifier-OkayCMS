@@ -35,9 +35,10 @@ class FormatterHelper
         $currencySign = ($currency && isset($currency->sign)) ? $currency->sign : '₴';
 
         $message = [
-            "🟢 Нове замовлення",
+            "🟢 Замовлення №" . $this->escapeHtml((string)$order->id),
             "",
-            "Номер: " . $this->escapeHtml((string)$order->id),
+            "Сума: " . $this->formatTotalPrice($order->total_price ?? 0, $currencySign),
+            "",
             "Клієнт: " . $this->escapeHtml($this->getClientName($order)),
         ];
 
@@ -56,8 +57,6 @@ class FormatterHelper
             $message[] = "Доставка: " . $this->escapeHtml($deliveryName);
         }
 
-        $message[] = "";
-        $message[] = "Сума: " . $this->formatTotalPrice($order->total_price ?? 0, $currencySign);
         $message[] = "";
 
         if ($productsList = $this->formatProductsList($order->purchases ?? [], $currencySign, $this->getProductFormat())) {
@@ -242,7 +241,7 @@ class FormatterHelper
     public function formatCommentMessage($comment): string
     {
         $message = [
-            "💬 Новий коментар",
+            "💬 Додано коментар",
             "",
             "Від: " . $this->escapeHtml($comment->name ?? 'Анонім'),
             $this->formatEmailField($comment->email ?? ''),
@@ -286,7 +285,7 @@ class FormatterHelper
     public function formatFeedbackMessage($feedback): string
     {
         $message = [
-            "✉️ Новий зворотний зв'язок",
+            "✉️ Зворотний зв'язок",
             "",
             "Від: " . $this->escapeHtml($feedback->name ?? 'Анонім'),
         ];
@@ -309,7 +308,7 @@ class FormatterHelper
     public function formatCallbackMessage($callback): string
     {
         $message = [
-            "📞 Нова заявка на зворотний дзвінок",
+            "📞 Заявка на зворотний дзвінок",
             "",
             "Ім'я: " . $this->escapeHtml($callback->name ?? 'Не вказано'),
             $this->formatPhoneField($callback->phone ?? ''),
