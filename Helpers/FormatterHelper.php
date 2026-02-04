@@ -159,12 +159,16 @@ class FormatterHelper
      */
     private function formatProductName(string $productName, string $variantName, string $sku, string $format): string
     {
-        return match ($format) {
-            'name_only' => $productName,
-            'name_variant' => $variantName ? "{$productName}({$variantName})" : $productName,
-            'name_sku' => $sku ? "{$productName}, {$sku}" : $productName,
-            default => $this->formatProductNameWithVariantAndSku($productName, $variantName, $sku),
-        };
+        switch ($format) {
+            case 'name_only':
+                return $productName;
+            case 'name_variant':
+                return $variantName ? "{$productName}({$variantName})" : $productName;
+            case 'name_sku':
+                return $sku ? "{$productName}, {$sku}" : $productName;
+            default:
+                return $this->formatProductNameWithVariantAndSku($productName, $variantName, $sku);
+        }
     }
 
     /**
@@ -402,13 +406,18 @@ class FormatterHelper
      */
     private function getTitleByCacheType(string $type, string $url): ?string
     {
-        return match ($type) {
-            'product' => $this->getProductTitle($url),
-            'category' => $this->getCategoryTitle($url),
-            'post' => $this->getPostTitle($url),
-            'blog_category' => $this->getBlogCategoryTitle($url),
-            default => null,
-        };
+        switch ($type) {
+            case 'product':
+                return $this->getProductTitle($url);
+            case 'category':
+                return $this->getCategoryTitle($url);
+            case 'post':
+                return $this->getPostTitle($url);
+            case 'blog_category':
+                return $this->getBlogCategoryTitle($url);
+            default:
+                return null;
+        }
     }
 
     /**
