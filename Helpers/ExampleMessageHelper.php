@@ -39,11 +39,16 @@ class ExampleMessageHelper
     /**
      * Генерує приклад повідомлення про оплачене замовлення в HTML форматі для адмін-панелі
      *
+     * @param string $type 'short' — коротке (номер + сума), 'full' — повне (з клієнтом, товарами тощо)
      * @return string HTML-код повідомлення з переносами рядків
      */
-    public function getExamplePaidOrderMessageHtml(): string
+    public function getExamplePaidOrderMessageHtml(string $type = 'full'): string
     {
-        return nl2br($this->formatterHelper->formatPaidOrderMessage($this->getExampleOrderObject()));
+        $order = $this->getExampleOrderObject();
+        $text = ($type === 'short')
+            ? $this->formatterHelper->formatPaidOrderMessageShort($order)
+            : $this->formatterHelper->formatPaidOrderMessage($order);
+        return nl2br($text);
     }
 
     private function getExampleOrderObject(): object

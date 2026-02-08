@@ -21,6 +21,7 @@ class TelegramHelper
     private const SETTING_FEEDBACK_NOTIFY = 'sviat__telegram_notifier__feedback_notify_enabled';
     private const SETTING_CALLBACK_NOTIFY = 'sviat__telegram_notifier__callback_notify_enabled';
     private const SETTING_PAID_ORDER_NOTIFY = 'sviat__telegram_notifier__paid_order_notify_enabled';
+    private const SETTING_PAID_ORDER_MESSAGE_TYPE = 'sviat__telegram_notifier__paid_order_message_type';
     private const SETTING_ORDER_STATS = 'sviat__telegram_notifier__order_stats_enabled';
     private const SETTING_BOT_TOKEN = 'sviat__telegram_notifier__bot_token';
     private const SETTING_CHAT_ID = 'sviat__telegram_notifier__chat_id';
@@ -176,16 +177,21 @@ class TelegramHelper
     }
 
     /**
-     * Відправляє повідомлення про оплачене замовлення в Telegram (при закритті замовлення, зокрема після онлайн-оплати).
+     * Відправляє повідомлення про оплачене замовлення в Telegram (коротке або повне — за налаштуванням).
      *
      * @param object $order Об'єкт замовлення
      * @return bool Успішність відправки
      */
     public function sendPaidOrderNotification($order): bool
     {
+        $messageType = $this->settings->get(self::SETTING_PAID_ORDER_MESSAGE_TYPE);
+        $isShort = ($messageType === 'short');
+
         return $this->sendNotification(
             self::SETTING_PAID_ORDER_NOTIFY,
-            fn() => $this->formatterHelper->formatPaidOrderMessage($order)
+            fn() => $isShort
+                ? $this->formatterHelper->formatPaidOrderMessageShort($order)
+                : $this->formatterHelper->formatPaidOrderMessage($order)
         );
     }
 

@@ -234,29 +234,47 @@
                 </div>
                 <div class="toggle_body_wrap on">
                     <div class="heading_label">
-                        <span>{$btr->sviat_telegram_notifier_product_format|escape}</span>
+                        <span>{$btr->sviat_telegram_notifier_paid_order_message_type|escape}</span>
                     </div>
                     <label>
-                        <select name="product_format" class="selectpicker form-control">
-                            <option value="name_only" {if $product_format == 'name_only'}selected{/if}>
-                                {$btr->sviat_telegram_notifier_format_name_only|escape}</option>
-                            <option value="name_variant" {if $product_format == 'name_variant'}selected{/if}>
-                                {$btr->sviat_telegram_notifier_format_name_variant|escape}</option>
-                            <option value="name_sku" {if $product_format == 'name_sku'}selected{/if}>
-                                {$btr->sviat_telegram_notifier_format_name_sku|escape}</option>
-                            <option value="name_variant_sku"
-                                {if $product_format == 'name_variant_sku' || !$product_format}selected{/if}>
-                                {$btr->sviat_telegram_notifier_format_name_variant_sku|escape}</option>
+                        <select name="paid_order_message_type" id="telegram_paid_order_message_type" class="selectpicker form-control">
+                            <option value="short" {if $paid_order_message_type == 'short'}selected{/if}>
+                                {$btr->sviat_telegram_notifier_paid_order_type_short|escape}</option>
+                            <option value="full" {if $paid_order_message_type == 'full' || !$paid_order_message_type}selected{/if}>
+                                {$btr->sviat_telegram_notifier_paid_order_type_full|escape}</option>
                         </select>
                     </label>
+
+                    {*Формат товару — показується лише при виборі «Повне» (перемикається по JS без збереження)*}
+                    <div class="fn_paid_order_product_format_block" {if $paid_order_message_type != 'full'}style="display:none"{/if}>
+                        <div class="heading_label">
+                            <span>{$btr->sviat_telegram_notifier_product_format|escape}</span>
+                        </div>
+                        <label>
+                            <select name="product_format" class="selectpicker form-control">
+                                <option value="name_only" {if $product_format == 'name_only'}selected{/if}>
+                                    {$btr->sviat_telegram_notifier_format_name_only|escape}</option>
+                                <option value="name_variant" {if $product_format == 'name_variant'}selected{/if}>
+                                    {$btr->sviat_telegram_notifier_format_name_variant|escape}</option>
+                                <option value="name_sku" {if $product_format == 'name_sku'}selected{/if}>
+                                    {$btr->sviat_telegram_notifier_format_name_sku|escape}</option>
+                                <option value="name_variant_sku"
+                                    {if $product_format == 'name_variant_sku' || !$product_format}selected{/if}>
+                                    {$btr->sviat_telegram_notifier_format_name_variant_sku|escape}</option>
+                            </select>
+                        </label>
+                    </div>
 
                     <div class="row mt-h">
                         <div class="col-xxl-12 col-lg-12 col-md-12">
                             <div class="heading_label">
                                 <span>{$btr->sviat_telegram_notifier_example_title|escape}</span>
                             </div>
-                            <div class="telegram_message_preview">
-                                {$example_paid_order_message}
+                            <div id="example_paid_order_short" class="telegram_message_preview" {if $paid_order_message_type != 'short'}style="display:none"{/if}>
+                                {$example_paid_order_message_short}
+                            </div>
+                            <div id="example_paid_order_full" class="telegram_message_preview" {if $paid_order_message_type != 'full'}style="display:none"{/if}>
+                                {$example_paid_order_message_full}
                             </div>
                         </div>
                     </div>

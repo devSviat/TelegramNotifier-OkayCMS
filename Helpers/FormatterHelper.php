@@ -68,7 +68,27 @@ class FormatterHelper
     }
 
     /**
-     * Форматує повідомлення про оплачене замовлення в HTML для Telegram
+     * Форматує коротке повідомлення про оплачене замовлення (номер + сума).
+     *
+     * @param object $order Об'єкт замовлення
+     * @return string Повідомлення у форматі HTML
+     */
+    public function formatPaidOrderMessageShort($order): string
+    {
+        $currency = $this->mainHelper->getCurrentCurrency();
+        $currencySign = ($currency && isset($currency->sign)) ? $currency->sign : '₴';
+
+        $message = [
+            "💰 Замовлення №" . $this->escapeHtml((string)$order->id) . " сплачено",
+            "",
+            "Сума: " . $this->formatTotalPrice($order->total_price ?? 0, $currencySign),
+        ];
+
+        return implode("\n", $message);
+    }
+
+    /**
+     * Форматує повне повідомлення про оплачене замовлення в HTML для Telegram (з клієнтом, доставкою, товарами).
      *
      * @param object $order Об'єкт замовлення
      * @return string Повідомлення у форматі HTML

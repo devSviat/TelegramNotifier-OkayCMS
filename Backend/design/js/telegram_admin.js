@@ -39,6 +39,20 @@ $(function(){
         $(this).closest('form').submit();
     });
 
+    // При зміні типу повідомлення (коротке/повне) — показувати приклад та блок формату товару без збереження
+    $(document).on('change', '#telegram_paid_order_message_type', function() {
+        var type = $(this).val();
+        if (type === 'short') {
+            $('.fn_paid_order_product_format_block').hide();
+            $('#example_paid_order_full').hide();
+            $('#example_paid_order_short').show();
+        } else {
+            $('.fn_paid_order_product_format_block').show();
+            $('#example_paid_order_short').hide();
+            $('#example_paid_order_full').show();
+        }
+    });
+
     // Обробник зміни стану увімкнення щомісячної статистики замовлень
     $(document).on('change', '#telegram_order_stats_enabled', function() {
         $(this).closest('form').submit();
