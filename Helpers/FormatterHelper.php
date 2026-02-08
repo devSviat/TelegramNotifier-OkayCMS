@@ -319,10 +319,11 @@ class FormatterHelper
     }
 
     /**
-     * Форматує загальну суму замовлення з жирним виділенням для HTML
-     * Без копійок - з пробілом як роздільником тисяч, з копійками - два знаки після коми
+     * Форматує загальну суму в грошовий формат з жирним виділенням для HTML.
+     * З копійками — "125 430.50 ₴", без копійок — "125 430 ₴" (пробіл як роздільник тисяч).
+     * Використовується в замовленнях та в статистиці замовлень (formatOrderStatsMessage).
      *
-     * @param float $price Сума замовлення
+     * @param float $price Сума
      * @param string $currencySign Знак валюти
      * @return string Відформатована сума з жирним виділенням
      */
@@ -331,7 +332,7 @@ class FormatterHelper
         $hasCents = (abs($price - (int) $price) > 0.0001);
 
         $formatted = $hasCents
-            ? number_format($price, 2, '.', '') . ' ' . $currencySign
+            ? number_format($price, 2, '.', ' ') . ' ' . $currencySign
             : number_format((int) $price, 0, '', ' ') . ' ' . $currencySign;
 
         return '<b>' . $this->escapeHtml($formatted) . '</b>';
