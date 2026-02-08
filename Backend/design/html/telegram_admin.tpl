@@ -27,8 +27,7 @@
 <form method="post" enctype="multipart/form-data" id="telegram_settings_form"
     data-error-empty-token="{$btr->sviat_telegram_notifier_error_empty_token|escape}"
     data-error-invalid-token="{$btr->sviat_telegram_notifier_error_invalid_token|escape}"
-    data-error-empty-chat-id="{$btr->sviat_telegram_notifier_error_empty_chat_id|escape}"
-    data-error-invalid-chat-id="{$btr->sviat_telegram_notifier_error_invalid_chat_id|escape}">
+    data-error-empty-chat-id="{$btr->sviat_telegram_notifier_error_empty_chat_id|escape}">
     <input type="hidden" name="session_id" value="{$smarty.session.id}">
 
     <div class="row">
@@ -211,6 +210,83 @@
                             </div>
                             <div class="telegram_message_preview">
                                 {$example_callback_message}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {*Оплачене замовлення та Статистика замовлень — другий ряд*}
+    <div class="row mt-2">
+        {*Оплачене замовлення*}
+        <div class="col-lg-3 col-md-12">
+            <div class="boxed fn_toggle_wrap">
+                <div class="heading_box heading_box--switch-right">
+                    <span>{$btr->sviat_telegram_notifier_paid_order_notify_title|escape}</span>
+                    <label class="switch switch-default">
+                        <input class="switch-input" name="paid_order_notify_enabled" value="1" type="checkbox"
+                            id="telegram_paid_order_notify_enabled" {if $paid_order_notify_enabled}checked{/if}>
+                        <span class="switch-label"></span>
+                        <span class="switch-handle"></span>
+                    </label>
+                </div>
+                <div class="toggle_body_wrap on">
+                    <div class="heading_label">
+                        <span>{$btr->sviat_telegram_notifier_product_format|escape}</span>
+                    </div>
+                    <label>
+                        <select name="product_format" class="selectpicker form-control">
+                            <option value="name_only" {if $product_format == 'name_only'}selected{/if}>
+                                {$btr->sviat_telegram_notifier_format_name_only|escape}</option>
+                            <option value="name_variant" {if $product_format == 'name_variant'}selected{/if}>
+                                {$btr->sviat_telegram_notifier_format_name_variant|escape}</option>
+                            <option value="name_sku" {if $product_format == 'name_sku'}selected{/if}>
+                                {$btr->sviat_telegram_notifier_format_name_sku|escape}</option>
+                            <option value="name_variant_sku"
+                                {if $product_format == 'name_variant_sku' || !$product_format}selected{/if}>
+                                {$btr->sviat_telegram_notifier_format_name_variant_sku|escape}</option>
+                        </select>
+                    </label>
+
+                    <div class="row mt-h">
+                        <div class="col-xxl-12 col-lg-12 col-md-12">
+                            <div class="heading_label">
+                                <span>{$btr->sviat_telegram_notifier_example_title|escape}</span>
+                            </div>
+                            <div class="telegram_message_preview">
+                                {$example_paid_order_message}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {*Статистика замовлень (крон 1-го числа о 9:00)*}
+        <div class="col-lg-3 col-md-12">
+            <div class="boxed fn_toggle_wrap">
+                <div class="heading_box heading_box--switch-right">
+                    <span>{$btr->sviat_telegram_notifier_order_stats_title|escape}</span>
+                    <label class="switch switch-default">
+                        <input class="switch-input" name="order_stats_enabled" value="1" type="checkbox"
+                            id="telegram_order_stats_enabled" {if $order_stats_enabled}checked{/if}>
+                        <span class="switch-label"></span>
+                        <span class="switch-handle"></span>
+                    </label>
+                </div>
+                <div class="toggle_body_wrap on">
+                    <div class="heading_label">
+                        <span>{$btr->sviat_telegram_notifier_order_stats_schedule|escape}</span>
+                    </div>
+                    <div class="row mt-h">
+                        <div class="col-xxl-12 col-lg-12 col-md-12">
+                            <div class="heading_label">
+                                <span>{$btr->sviat_telegram_notifier_example_title|escape}</span>
+                            </div>
+                            <div class="telegram_message_preview">
+                                {$example_order_stats_message}
                             </div>
                         </div>
                     </div>

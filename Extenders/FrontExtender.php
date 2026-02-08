@@ -8,6 +8,7 @@ use Okay\Entities\CallbacksEntity;
 use Okay\Entities\CommentsEntity;
 use Okay\Entities\DeliveriesEntity;
 use Okay\Entities\FeedbacksEntity;
+use Okay\Entities\OrdersEntity;
 use Okay\Entities\PaymentsEntity;
 use Okay\Helpers\CommentsHelper;
 use Okay\Helpers\OrdersHelper;
@@ -136,5 +137,56 @@ class FrontExtender implements ExtensionInterface
         }
 
         return $callbackId;
+    }
+
+    /**
+     * Після зміни статусу оплати замовлень (OrdersEntity::afterMarkedPaidUpdate): відправляє повідомлення в Telegram
+     * лише коли замовлення саме переведено в «сплачено» ($state === true). Викликається тільки для тих замовлень,
+     * у яких реально змінився paid (без дублікатів при повторній позначці).
+     *
+     * @param mixed $result Результат (null)
+     * @param array $ids ID замовлень, у яких змінився статус оплати
+     * @param bool $state true = переведено в «сплачено», false = знято позначку «сплачено»
+     */
+    public function afterMarkedPaidUpdate($result, array $ids, $state)
+    {
+        if (empty($ids) || !$state) {
+            return $result;
+        }
+
+        /** @var OrdersEntity $ordersEntity */
+        $ordersEntity = $this->entityFactory->get(OrdersEntity::class);
+
+        foreach ($ids as $orderId) {
+            $orderObj = $ordersEntity->get((int) $orderId);
+            if (empty($orderObj)) {
+                continue;
+            }
+
+            $orderObj->purchases = $this->ordersHelper->getOrderPurchasesList($orderObj->id);
+
+            if (!empty($orderObj->payment_method_id)) {
+                /** @var PaymentsEntity $paymentsEntity */
+                $paymentsEntity = $this->entityFactory->get(PaymentsEntity::class);
+                $orderObj->payment_method_name = $paymentsEntity->findOne(['id' => $orderObj->payment_method_id]);
+            }
+
+            if (!empty($orderObj->delivery_id)) {
+                /** @var DeliveriesEntity $deliveriesEntity */
+                $deliveriesEntity = $this->entityFactory->get(DeliveriesEntity::class);
+                $delivery = $deliveriesEntity->get((int) $orderObj->delivery_id);
+                if ($delivery && !empty($delivery->name)) {
+                    $orderObj->delivery_name = $delivery->name;
+                }
+            }
+
+            try {
+                $this->telegramHelper->sendPaidOrderNotification($orderObj);
+            } catch (\Throwable $e) {
+                error_log('TelegramNotifier: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+            }
+        }
+
+        return $result;
     }
 }

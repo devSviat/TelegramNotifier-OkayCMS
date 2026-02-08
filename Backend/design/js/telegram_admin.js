@@ -6,8 +6,7 @@ $(function(){
     var telegramErrors = {
         emptyToken: $form.data('error-empty-token') || '',
         invalidToken: $form.data('error-invalid-token') || '',
-        emptyChatId: $form.data('error-empty-chat-id') || '',
-        invalidChatId: $form.data('error-invalid-chat-id') || ''
+        emptyChatId: $form.data('error-empty-chat-id') || ''
     };
 
     // Обробник зміни стану увімкнення
@@ -35,6 +34,25 @@ $(function(){
         $(this).closest('form').submit();
     });
 
+    // Обробник зміни стану увімкнення повідомлень про оплачене замовлення
+    $(document).on('change', '#telegram_paid_order_notify_enabled', function() {
+        $(this).closest('form').submit();
+    });
+
+    // Обробник зміни стану увімкнення щомісячної статистики замовлень
+    $(document).on('change', '#telegram_order_stats_enabled', function() {
+        $(this).closest('form').submit();
+    });
+
+    // Синхронізація обох селектів «Формат відображення товару» (Нове замовлення та Оплачене замовлення)
+    $(document).on('change', 'select[name="product_format"]', function() {
+        var value = $(this).val();
+        $form.find('select[name="product_format"]').not(this).val(value);
+        if ($form.find('.selectpicker').length) {
+            $form.find('select[name="product_format"]').selectpicker('refresh');
+        }
+    });
+
     // Функція для відображення помилки
     function showError(fieldId, errorDivId, message) {
         $('#' + errorDivId).text(message).show();
@@ -58,16 +76,10 @@ $(function(){
         return '';
     }
 
-    // Валідація Chat ID
+    // Chat ID — обов'язкове поле (тільки перевірка на порожнє)
     function validateChatId(chatId) {
         if (!chatId) {
             return telegramErrors.emptyChatId;
-        }
-        // Перевірка формату: негативне число (починається з - та має цифри) або ім'я каналу що починається з @
-        var isChatId = chatId.match(/^-\d+$/);
-        var isChannel = chatId.match(/^@[A-Za-z0-9_]+$/);
-        if (!isChatId && !isChannel) {
-            return telegramErrors.invalidChatId;
         }
         return '';
     }

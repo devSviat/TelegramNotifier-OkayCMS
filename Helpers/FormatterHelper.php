@@ -68,6 +68,102 @@ class FormatterHelper
     }
 
     /**
+     * Форматує повідомлення про оплачене замовлення в HTML для Telegram
+     *
+     * @param object $order Об'єкт замовлення
+     * @return string Повідомлення у форматі HTML
+     */
+    public function formatPaidOrderMessage($order): string
+    {
+        $currency = $this->mainHelper->getCurrentCurrency();
+        $currencySign = ($currency && isset($currency->sign)) ? $currency->sign : '₴';
+
+        $message = [
+            "💰 Замовлення №" . $this->escapeHtml((string)$order->id) . " сплачено",
+            "",
+            "Сума: " . $this->formatTotalPrice($order->total_price ?? 0, $currencySign),
+            "",
+            "Клієнт: " . $this->escapeHtml($this->getClientName($order)),
+        ];
+
+        $phone = trim($order->phone ?? '');
+        if ($phone) {
+            $message[] = "Телефон: " . $this->escapeHtml($phone);
+        }
+        $email = trim($order->email ?? '');
+        if ($email) {
+            $message[] = "Пошта: " . $this->escapeHtml($email);
+        }
+
+        $message[] = "Спосіб оплати: " . $this->escapeHtml($this->getPaymentMethod($order));
+
+        if ($deliveryName = trim($order->delivery_name ?? '')) {
+            $message[] = "Доставка: " . $this->escapeHtml($deliveryName);
+        }
+
+        $message[] = "";
+
+        if ($productsList = $this->formatProductsList($order->purchases ?? [], $currencySign, $this->getProductFormat())) {
+            $message[] = "Товари:";
+            $message = array_merge($message, $productsList);
+        }
+
+        return implode("\n", $message);
+    }
+
+    /**
+     * Форматує повідомлення щомісячної статистики замовлень для Telegram
+     *
+     * @param int $ordersCount Кількість замовлень
+     * @param float $totalSum Загальна сума
+     * @param array<int, array{name: string, count: int}> $ordersByStatus Розбивка за статусами
+     * @param array<int, array{name: string, amount: int}> $topProducts Топ товарів (назва, кількість)
+     * @param string $monthLabel Назва місяця (наприклад "січень 2026")
+     * @return string Повідомлення у форматі HTML
+     */
+    public function formatOrderStatsMessage(int $ordersCount, float $totalSum, array $ordersByStatus, array $topProducts, string $monthLabel): string
+    {
+        $currency = $this->mainHelper->getCurrentCurrency();
+        $currencySign = ($currency && isset($currency->sign)) ? $currency->sign : '₴';
+
+        $message = [
+            "📊 Статистика замовлень за " . $this->escapeHtml($monthLabel),
+            "",
+            "Кількість замовлень: " . "<b>" . $this->escapeHtml((string) $ordersCount) . "</b>",
+            "",
+        ];
+
+        // За статусами: виводимо всі статуси з замовленнями — скільки є, стільки й рядків
+        if (!empty($ordersByStatus)) {
+            $message[] = "За статусами:";
+            foreach ($ordersByStatus as $item) {
+                $name = $item['name'] ?? '';
+                $count = (int) ($item['count'] ?? 0);
+                $message[] = "• " . $this->escapeHtml($name) . ": " . $this->escapeHtml((string) $count);
+            }
+            $message[] = "";
+        }
+
+        $message[] = "Сума: " . $this->formatTotalPrice($totalSum, $currencySign);
+        $message[] = "";
+
+        if (!empty($topProducts)) {
+            $message[] = "Топ " . count($topProducts) . " товарів:";
+            foreach ($topProducts as $i => $item) {
+                $name = $item['name'] ?? '';
+                $amount = (int) ($item['amount'] ?? 0);
+                $num = $i + 1;
+                $message[] = "- <b>" . $num . ".</b> " . $this->escapeHtml($name) . " — " . $this->escapeHtml((string) $amount) . " шт.";
+            }
+        }
+
+        $message[] = "";
+        $message[] = "#order_stats";
+
+        return implode("\n", $message);
+    }
+
+    /**
      * Отримує ім'я клієнта з об'єкта замовлення
      *
      * @param object $order Об'єкт замовлення

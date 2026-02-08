@@ -3,11 +3,14 @@
 namespace Okay\Modules\Sviat\TelegramNotifier\Init;
 
 use Okay\Core\Modules\AbstractInit;
+use Okay\Core\Scheduler\Schedule;
 use Okay\Entities\CallbacksEntity;
 use Okay\Entities\FeedbacksEntity;
+use Okay\Entities\OrdersEntity;
 use Okay\Helpers\CommentsHelper;
 use Okay\Helpers\OrdersHelper;
 use Okay\Modules\Sviat\TelegramNotifier\Extenders\FrontExtender;
+use Okay\Modules\Sviat\TelegramNotifier\Helpers\TelegramCronHelper;
 
 class Init extends AbstractInit
 {
@@ -39,6 +42,19 @@ class Init extends AbstractInit
         $this->registerQueueExtension(
             [CallbacksEntity::class, 'add'],
             [FrontExtender::class, 'addCallbackProcedure']
+        );
+
+        $this->registerQueueExtension(
+            [OrdersEntity::class, 'afterMarkedPaidUpdate'],
+            [FrontExtender::class, 'afterMarkedPaidUpdate']
+        );
+
+        $this->registerSchedule(
+            (new Schedule([TelegramCronHelper::class, 'sendMonthlyOrderStats']))
+                ->name('Telegram: monthly order stats')
+                ->time('0 9 1 * *')
+                ->overlap(false)
+                ->timeout(300)
         );
     }
 }

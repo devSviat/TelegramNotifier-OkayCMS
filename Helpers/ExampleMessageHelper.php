@@ -23,7 +23,32 @@ class ExampleMessageHelper
      */
     public function getExampleOrderMessage()
     {
-        $exampleOrder = (object)[
+        return $this->formatterHelper->formatOrderMessage($this->getExampleOrderObject());
+    }
+
+    /**
+     * Генерує приклад повідомлення про замовлення в HTML форматі для відображення в адмін-панелі
+     *
+     * @return string HTML-код повідомлення з переносами рядків
+     */
+    public function getExampleOrderMessageHtml(): string
+    {
+        return nl2br($this->getExampleOrderMessage());
+    }
+
+    /**
+     * Генерує приклад повідомлення про оплачене замовлення в HTML форматі для адмін-панелі
+     *
+     * @return string HTML-код повідомлення з переносами рядків
+     */
+    public function getExamplePaidOrderMessageHtml(): string
+    {
+        return nl2br($this->formatterHelper->formatPaidOrderMessage($this->getExampleOrderObject()));
+    }
+
+    private function getExampleOrderObject(): object
+    {
+        return (object)[
             'id' => 12345,
             'name' => 'Тарас',
             'last_name' => 'Шевченко',
@@ -49,18 +74,6 @@ class ExampleMessageHelper
                 ],
             ],
         ];
-
-        return $this->formatterHelper->formatOrderMessage($exampleOrder);
-    }
-
-    /**
-     * Генерує приклад повідомлення про замовлення в HTML форматі для відображення в адмін-панелі
-     *
-     * @return string HTML-код повідомлення з переносами рядків
-     */
-    public function getExampleOrderMessageHtml(): string
-    {
-        return nl2br($this->getExampleOrderMessage());
     }
 
     /**
@@ -161,6 +174,33 @@ class ExampleMessageHelper
     public function getExampleCallbackMessageHtml(): string
     {
         return nl2br($this->getExampleCallbackMessage());
+    }
+
+    /**
+     * Генерує приклад повідомлення щомісячної статистики замовлень для адмін-панелі
+     *
+     * @return string Повідомлення у форматі HTML
+     */
+    public function getExampleOrderStatsMessageHtml(): string
+    {
+        $exampleOrdersByStatus = [
+            ['name' => 'Виконано', 'count' => 35],
+            ['name' => 'Скасовано', 'count' => 8],
+            ['name' => 'У курьєра', 'count' => 4],
+        ];
+        $exampleTopProducts = [
+            ['name' => 'Смартфон Samsung Galaxy S23', 'amount' => 12],
+            ['name' => 'Навушники Apple AirPods Pro', 'amount' => 8],
+            ['name' => 'Чохол для телефону', 'amount' => 15],
+        ];
+        $text = $this->formatterHelper->formatOrderStatsMessage(
+            47,
+            125430.50,
+            $exampleOrdersByStatus,
+            $exampleTopProducts,
+            'січень 2026'
+        );
+        return nl2br($text);
     }
 
     /**

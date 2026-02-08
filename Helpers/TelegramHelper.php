@@ -20,6 +20,8 @@ class TelegramHelper
     private const SETTING_COMMENT_NOTIFY = 'sviat__telegram_notifier__comment_notify_enabled';
     private const SETTING_FEEDBACK_NOTIFY = 'sviat__telegram_notifier__feedback_notify_enabled';
     private const SETTING_CALLBACK_NOTIFY = 'sviat__telegram_notifier__callback_notify_enabled';
+    private const SETTING_PAID_ORDER_NOTIFY = 'sviat__telegram_notifier__paid_order_notify_enabled';
+    private const SETTING_ORDER_STATS = 'sviat__telegram_notifier__order_stats_enabled';
     private const SETTING_BOT_TOKEN = 'sviat__telegram_notifier__bot_token';
     private const SETTING_CHAT_ID = 'sviat__telegram_notifier__chat_id';
 
@@ -170,6 +172,39 @@ class TelegramHelper
         return $this->sendNotification(
             self::SETTING_CALLBACK_NOTIFY,
             fn() => $this->formatterHelper->formatCallbackMessage($callback)
+        );
+    }
+
+    /**
+     * Відправляє повідомлення про оплачене замовлення в Telegram (при закритті замовлення, зокрема після онлайн-оплати).
+     *
+     * @param object $order Об'єкт замовлення
+     * @return bool Успішність відправки
+     */
+    public function sendPaidOrderNotification($order): bool
+    {
+        return $this->sendNotification(
+            self::SETTING_PAID_ORDER_NOTIFY,
+            fn() => $this->formatterHelper->formatPaidOrderMessage($order)
+        );
+    }
+
+    /**
+     * Відправляє щомісячну статистику замовлень у Telegram.
+     * Відправка лише якщо увімкнено «Статистика замовлень» (order_stats_enabled) в налаштуваннях.
+     *
+     * @param int $ordersCount Кількість замовлень
+     * @param float $totalSum Загальна сума
+     * @param array<int, array{name: string, count: int}> $ordersByStatus Розбивка за статусами
+     * @param array<int, array{name: string, amount: int}> $topProducts Топ товарів
+     * @param string $monthLabel Назва місяця
+     * @return bool Успішність відправки
+     */
+    public function sendOrderStatsNotification(int $ordersCount, float $totalSum, array $ordersByStatus, array $topProducts, string $monthLabel): bool
+    {
+        return $this->sendNotification(
+            self::SETTING_ORDER_STATS,
+            fn() => $this->formatterHelper->formatOrderStatsMessage($ordersCount, $totalSum, $ordersByStatus, $topProducts, $monthLabel)
         );
     }
 
