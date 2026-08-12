@@ -189,4 +189,33 @@ class FrontExtender implements ExtensionInterface
 
         return $result;
     }
+
+    /**
+     * Обробляє запит на підбір запчастин після його додавання: завантажує дані та відправляє повідомлення в Telegram
+     *
+     * @param int $partsSelectionId ID запиту на підбір запчастин
+     * @param array|object $partsSelectionData Дані запиту на підбір запчастин (вхідні дані методу add)
+     * @return int ID запиту на підбір запчастин
+     */
+    public function addPartsSelectionProcedure($partsSelectionId, $partsSelectionData)
+    {
+        if (!$partsSelectionId) {
+            return $partsSelectionId;
+        }
+
+        try {
+            /** @var \Okay\Modules\Sviat\PartsSelection\Entities\PartsSelectionEntity $partsSelectionEntity */
+            $partsSelectionEntity = $this->entityFactory->get(\Okay\Modules\Sviat\PartsSelection\Entities\PartsSelectionEntity::class);
+            if ($partsSelection = $partsSelectionEntity->findOne(['id' => $partsSelectionId])) {
+                $this->telegramHelper->sendPartsSelectionNotification($partsSelection);
+            }
+        } catch (\Throwable $e) {
+            // Якщо модуль PartsSelection не встановлений, просто ігноруємо помилку
+            if (strpos($e->getMessage(), 'PartsSelection') === false && strpos($e->getMessage(), 'class FrontExtender found') === false) {
+                error_log('TelegramNotifier: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+            }
+        }
+
+        return $partsSelectionId;
+    }
 }

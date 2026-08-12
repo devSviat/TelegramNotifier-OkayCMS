@@ -36,3 +36,5 @@ $lang['sviat_telegram_notifier_docs_bot_token'] = 'How to get Bot Token:';
 $lang['sviat_telegram_notifier_docs_bot_token_text'] = '1. Open Telegram and find @BotFather<br>2. Send the /newbot command<br>3. Enter the name and username for the bot<br>4. Copy the received token (format: bot123456789:ABCdefGHIjklMNOpqrsTUVwxyz)<br><i>Note: keep the token in a safe place, it provides full access to your bot.</i>';
 $lang['sviat_telegram_notifier_docs_chat_id'] = 'How to get Chat ID:';
 $lang['sviat_telegram_notifier_docs_chat_id_text'] = '1. For personal chat: find @userinfobot and send it a message to find out your user ID.<br>2. For group/channel:<br>&nbsp;&nbsp;a) Add the bot to the group/channel.<br>&nbsp;&nbsp;b) Send any message in the group/channel.<br>3. Use @getidsbot or other bots to get the ID.<br>4. Chat ID for groups/channels usually starts with -100 (e.g., -1001234567890).';
+$lang['sviat_telegram_notifier_parts_selection_notify_title'] = 'Parts Selection Request';
+$lang['sviat_telegram_notifier_parts_selection_notify_enable'] = 'Enable notifications';

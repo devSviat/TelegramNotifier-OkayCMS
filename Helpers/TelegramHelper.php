@@ -23,6 +23,7 @@ class TelegramHelper
     private const SETTING_PAID_ORDER_NOTIFY = 'sviat__telegram_notifier__paid_order_notify_enabled';
     private const SETTING_PAID_ORDER_MESSAGE_TYPE = 'sviat__telegram_notifier__paid_order_message_type';
     private const SETTING_ORDER_STATS = 'sviat__telegram_notifier__order_stats_enabled';
+    private const SETTING_PARTS_SELECTION_NOTIFY = 'sviat__telegram_notifier__parts_selection_notify_enabled';
     private const SETTING_BOT_TOKEN = 'sviat__telegram_notifier__bot_token';
     private const SETTING_CHAT_ID = 'sviat__telegram_notifier__chat_id';
 
@@ -100,13 +101,11 @@ class TelegramHelper
 
         if ($response === false) {
             $error = curl_error($ch);
-            curl_close($ch);
             error_log('TelegramNotifier: cURL error - ' . $error);
             return false;
         }
 
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
 
         return $this->validateResponse($response, $httpCode);
     }
@@ -211,6 +210,20 @@ class TelegramHelper
         return $this->sendNotification(
             self::SETTING_ORDER_STATS,
             fn() => $this->formatterHelper->formatOrderStatsMessage($ordersCount, $totalSum, $ordersByStatus, $topProducts, $monthLabel)
+        );
+    }
+
+    /**
+     * Відправляє повідомлення про новий запит на підбір запчастин в Telegram
+     *
+     * @param object $partsSelection Об'єкт запиту на підбір запчастин
+     * @return bool Успішність відправки
+     */
+    public function sendPartsSelectionNotification($partsSelection): bool
+    {
+        return $this->sendNotification(
+            self::SETTING_PARTS_SELECTION_NOTIFY,
+            fn() => $this->formatterHelper->formatPartsSelectionMessage($partsSelection)
         );
     }
 
