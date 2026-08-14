@@ -49,6 +49,19 @@ class Init extends AbstractInit
             [FrontExtender::class, 'afterMarkedPaidUpdate']
         );
 
+        // Реєстрація extender для модуля PartsSelection (якщо встановлений)
+        try {
+            $partsSelectionEntityClass = \Okay\Modules\Sviat\PartsSelection\Entities\PartsSelectionEntity::class;
+            if (class_exists($partsSelectionEntityClass)) {
+                $this->registerQueueExtension(
+                    [$partsSelectionEntityClass, 'add'],
+                    [FrontExtender::class, 'addPartsSelectionProcedure']
+                );
+            }
+        } catch (\Throwable $e) {
+            // Якщо модуль PartsSelection не встановлений, просто ігноруємо помилку
+        }
+
         $this->registerSchedule(
             (new Schedule([TelegramCronHelper::class, 'sendMonthlyOrderStats']))
                 ->name('Telegram: monthly order stats')

@@ -3,6 +3,7 @@
 namespace Okay\Modules\Sviat\TelegramNotifier\Helpers;
 
 use Okay\Core\EntityFactory;
+use Okay\Core\Request;
 use Okay\Core\Router;
 use Okay\Core\Settings;
 use Okay\Helpers\MainHelper;
@@ -620,5 +621,91 @@ class FormatterHelper
     {
         $phone = trim($phone);
         return $phone ? "Телефон: " . $this->escapeHtml($phone) : "Телефон: -";
+    }
+
+    /**
+     * Форматує повідомлення про новий запит на підбір запчастин в HTML для Telegram
+     *
+     * @param object $partsSelection Об'єкт запиту на підбір запчастин
+     * @return string Повідомлення у форматі HTML
+     */
+    public function formatPartsSelectionMessage($partsSelection): string
+    {
+        $message = [
+            "🔧 Запит на підбір запчастин",
+            "",
+            "Ім'я: " . $this->escapeHtml($partsSelection->name ?? 'Не вказано'),
+            $this->formatPhoneField($partsSelection->phone ?? ''),
+        ];
+
+        $brand = trim($partsSelection->brand ?? '');
+        if ($brand) {
+            $message[] = "Бренд: " . $this->escapeHtml($brand);
+        }
+
+        $model = trim($partsSelection->model ?? '');
+        if ($model) {
+            $message[] = "Модель: " . $this->escapeHtml($model);
+        }
+
+        $serialNumber = trim($partsSelection->serial_number ?? '');
+        if ($serialNumber) {
+            $message[] = "Серійний номер: " . $this->escapeHtml($serialNumber);
+        }
+
+        $url = trim($partsSelection->url ?? '');
+        if ($url) {
+            $message[] = $this->formatPageLink($url);
+        }
+
+        $messageText = trim($partsSelection->message ?? '');
+        if ($messageText) {
+            $message[] = "";
+            $message[] = "Повідомлення:";
+            $message[] = "<i>" . $this->escapeHtml($messageText) . "</i>";
+        }
+
+        // Додаємо посилання на фото, якщо воно є
+        $uploadFileName = trim($partsSelection->upload ?? '');
+        if ($uploadFileName) {
+            $photoUrl = $this->getPartsSelectionPhotoUrl($uploadFileName);
+            if ($photoUrl) {
+                $message[] = "";
+                $message[] = "Фото: <a href=\"" . $this->escapeHtml($photoUrl) . "\">" . $this->escapeHtml($uploadFileName) . "</a>";
+            }
+        }
+
+        return implode("\n", $message);
+    }
+
+    /**
+     * Отримує повний URL до фото запиту на підбір запчастин
+     *
+     * @param string $uploadFileName Назва файлу фото
+     * @return string|null URL до фото або null якщо не вдалося сформувати
+     */
+    private function getPartsSelectionPhotoUrl(string $uploadFileName): ?string
+    {
+        try {
+            // Отримуємо шлях до завантажених файлів з конфігурації модуля PartsSelection
+            $uploadPath = $this->settings->get('sviat__parts_selection_upload') ?? 'files/findparts/upload/';
+            
+            // Нормалізуємо шлях: видаляємо початковий та кінцевий слеш, потім додаємо один на початок
+            $uploadPath = trim($uploadPath, '/');
+            if (!empty($uploadPath)) {
+                $uploadPath = '/' . $uploadPath . '/';
+            } else {
+                $uploadPath = '/';
+            }
+            
+            // Формуємо повний URL
+            $rootUrl = rtrim(Request::getRootUrl(), '/');
+            $photoUrl = $rootUrl . $uploadPath . $uploadFileName;
+            
+            return $photoUrl;
+        } catch (\Throwable $e) {
+            error_log('TelegramNotifier: Error getting photo URL - ' . $e->getMessage());
+            return null;
+        }
     }
 }

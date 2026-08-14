@@ -218,4 +218,37 @@ class ExampleMessageHelper
     {
         return rtrim(Request::getRootUrl(), '/') . $path;
     }
+
+    /**
+     * Генерує приклад повідомлення про запит на підбір запчастин для перегляду в адмін-панелі
+     *
+     * @return string Повідомлення у форматі HTML
+     */
+    public function getExamplePartsSelectionMessage(): string
+    {
+        $exampleUrl = $this->buildExampleUrl('/products/samsung-galaxy-s23');
+        
+        $examplePartsSelection = (object)[
+            'name' => 'Олександр Коваленко',
+            'phone' => '+380501234567',
+            'brand' => 'Samsung',
+            'model' => 'Galaxy S23',
+            'serial_number' => 'SN123456789',
+            'url' => $exampleUrl,
+            'message' => 'Потрібен екран для цього телефону',
+            'upload' => '1234567890.jpg',
+        ];
+
+        return $this->formatterHelper->formatPartsSelectionMessage($examplePartsSelection);
+    }
+
+    /**
+     * Генерує приклад повідомлення про запит на підбір запчастин в HTML форматі для відображення в адмін-панелі
+     *
+     * @return string HTML-код повідомлення з переносами рядків
+     */
+    public function getExamplePartsSelectionMessageHtml(): string
+    {
+        return nl2br($this->getExamplePartsSelectionMessage());
+    }
 }

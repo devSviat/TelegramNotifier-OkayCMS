@@ -36,3 +36,5 @@ $lang['sviat_telegram_notifier_docs_bot_token'] = 'Як отримати Bot Tok
 $lang['sviat_telegram_notifier_docs_bot_token_text'] = '1. Відкрийте Telegram та знайдіть @BotFather<br>2. Надішліть команду /newbot<br>3. Введіть назву та username для бота<br>4. Скопіюйте отриманий токен (формат: bot123456789:ABCdefGHIjklMNOpqrsTUVwxyz)<br><i>Примітка: збережіть токен у безпечному місці, він надає повний доступ до вашого бота.</i>';
 $lang['sviat_telegram_notifier_docs_chat_id'] = 'Як отримати Chat ID:';
 $lang['sviat_telegram_notifier_docs_chat_id_text'] = '1. Для особистого чату: знайдіть @userinfobot та надішліть йому повідомлення, щоб дізнатися свій user ID.<br>2. Для групи/каналу:<br>&nbsp;&nbsp;a) Додайте бота до групи/каналу.<br>&nbsp;&nbsp;b) Надішліть будь-яке повідомлення у групі/каналі.<br>3. Використайте @getidsbot або інші боти для отримання ID.<br>4. Chat ID для груп/каналів зазвичай починається з -100 (наприклад: -1001234567890).';
+$lang['sviat_telegram_notifier_parts_selection_notify_title'] = 'Запит на підбір запчастин';
+$lang['sviat_telegram_notifier_parts_selection_notify_enable'] = 'Увімкнути сповіщення';

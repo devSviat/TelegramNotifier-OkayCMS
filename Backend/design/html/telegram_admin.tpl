@@ -311,6 +311,35 @@
                 </div>
             </div>
         </div>
+
+        {*Запит на підбір запчастин - показується тільки якщо модуль PartsSelection встановлений та увімкнений*}
+        {if $is_parts_selection_installed}
+        <div class="col-lg-3 col-md-12">
+            <div class="boxed fn_toggle_wrap">
+                <div class="heading_box heading_box--switch-right">
+                    <span>{$btr->sviat_telegram_notifier_parts_selection_notify_title|escape}</span>
+                    <label class="switch switch-default">
+                        <input class="switch-input" name="parts_selection_notify_enabled" value="1" type="checkbox"
+                            id="telegram_parts_selection_notify_enabled" {if $parts_selection_notify_enabled}checked{/if}>
+                        <span class="switch-label"></span>
+                        <span class="switch-handle"></span>
+                    </label>
+                </div>
+                <div class="toggle_body_wrap on">
+                    <div class="row">
+                        <div class="col-xxl-12 col-lg-12 col-md-12">
+                            <div class="heading_label">
+                                <span>{$btr->sviat_telegram_notifier_example_title|escape}</span>
+                            </div>
+                            <div class="telegram_message_preview">
+                                {$example_parts_selection_message}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/if}
     </div>
 
     {*Кнопка збереження внизу форми*}

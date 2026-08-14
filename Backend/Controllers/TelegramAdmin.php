@@ -3,6 +3,8 @@
 namespace Okay\Modules\Sviat\TelegramNotifier\Backend\Controllers;
 
 use Okay\Admin\Controllers\IndexAdmin;
+use Okay\Core\EntityFactory;
+use Okay\Entities\ModulesEntity;
 use Okay\Modules\Sviat\TelegramNotifier\Helpers\ExampleMessageHelper;
 
 /**
@@ -14,9 +16,10 @@ class TelegramAdmin extends IndexAdmin
      * Обробляє запити налаштувань модуля та відображає сторінку конфігурації
      *
      * @param ExampleMessageHelper $exampleMessageHelper Хелпер для генерації прикладів повідомлень
+     * @param EntityFactory $entityFactory Фабрика сутностей
      * @return void
      */
-    public function fetch(ExampleMessageHelper $exampleMessageHelper)
+    public function fetch(ExampleMessageHelper $exampleMessageHelper, EntityFactory $entityFactory)
     {
         if ($this->request->method('post')) {
             $this->settings->set('sviat__telegram_notifier__order_notify_enabled', $this->request->post('order_notify_enabled', 'boolean') ? 1 : 0);
@@ -27,6 +30,7 @@ class TelegramAdmin extends IndexAdmin
             $paidOrderMessageType = $this->request->post('paid_order_message_type');
             $this->settings->set('sviat__telegram_notifier__paid_order_message_type', in_array($paidOrderMessageType, ['short', 'full'], true) ? $paidOrderMessageType : 'full');
             $this->settings->set('sviat__telegram_notifier__order_stats_enabled', $this->request->post('order_stats_enabled', 'boolean') ? 1 : 0);
+            $this->settings->set('sviat__telegram_notifier__parts_selection_notify_enabled', $this->request->post('parts_selection_notify_enabled', 'boolean') ? 1 : 0);
             $this->settings->set('sviat__telegram_notifier__bot_token', $this->request->post('bot_token'));
             $this->settings->set('sviat__telegram_notifier__chat_id', $this->request->post('chat_id'));
             $this->settings->set('sviat__telegram_notifier__product_format', $this->request->post('product_format'));
@@ -53,6 +57,18 @@ class TelegramAdmin extends IndexAdmin
         $this->design->assign('example_paid_order_message_short', $exampleMessageHelper->getExamplePaidOrderMessageHtml('short'));
         $this->design->assign('example_paid_order_message_full', $exampleMessageHelper->getExamplePaidOrderMessageHtml('full'));
         $this->design->assign('example_order_stats_message', $exampleMessageHelper->getExampleOrderStatsMessageHtml());
+
+        // Перевірка наявності модуля PartsSelection
+        /** @var ModulesEntity $modulesEntity */
+        $modulesEntity = $entityFactory->get(ModulesEntity::class);
+        $partsSelectionModule = $modulesEntity->getByVendorModuleName('Sviat', 'PartsSelection');
+        $isPartsSelectionInstalled = !empty($partsSelectionModule) && $partsSelectionModule->enabled;
+        $this->design->assign('is_parts_selection_installed', $isPartsSelectionInstalled);
+        
+        if ($isPartsSelectionInstalled) {
+            $this->design->assign('parts_selection_notify_enabled', $this->settings->get('sviat__telegram_notifier__parts_selection_notify_enabled'));
+            $this->design->assign('example_parts_selection_message', $exampleMessageHelper->getExamplePartsSelectionMessageHtml());
+        }
 
         $this->response->setContent($this->design->fetch('telegram_admin.tpl'));
     }
