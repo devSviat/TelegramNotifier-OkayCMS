@@ -368,6 +368,10 @@ class FormatterHelper
         $pageUrl = $this->getCommentPageUrl($comment);
         $message[] = $this->formatPageLink($pageUrl);
 
+        if ($rating = $this->formatRatingField($comment)) {
+            $message[] = $rating;
+        }
+
         $message[] = "";
         $message[] = "Коментар:";
         $message[] = "<i>" . $this->escapeHtml($comment->text ?? '') . "</i>";
@@ -597,6 +601,26 @@ class FormatterHelper
         } catch (\Exception $e) {
             return null;
         }
+    }
+
+    /**
+     * Оцінки може не бути: у стоковій OkayCMS колонки `rating` немає взагалі,
+     * а до статей вона не обов'язкова.
+     *
+     * @param object $comment Об'єкт коментаря
+     * @return string|null Відформатований рядок з оцінкою або null
+     */
+    private function formatRatingField($comment): ?string
+    {
+        $rating = $comment->rating ?? null;
+        if (empty($rating)) {
+            return null;
+        }
+
+        // Значення поза шкалою зіпсувало б рядок зірок, тож затискаємо.
+        $rating = max(1, min(5, (int)$rating));
+
+        return "Оцінка: " . str_repeat('★', $rating) . str_repeat('☆', 5 - $rating) . " ({$rating}/5)";
     }
 
     /**

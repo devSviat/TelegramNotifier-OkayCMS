@@ -3,6 +3,7 @@
 namespace Okay\Modules\Sviat\TelegramNotifier\Helpers;
 
 use Okay\Core\Request;
+use Okay\Entities\CommentsEntity;
 
 /**
  * Генерація прикладів повідомлень для відображення в адмін-панелі
@@ -96,10 +97,19 @@ class ExampleMessageHelper
             "Від: Леся Українка",
             "Email: lesya.ukrainka@example.com",
             "Сторінка: <a href=\"" . htmlspecialchars($exampleUrl, ENT_QUOTES, 'UTF-8') . "\">Смартфон Samsung Galaxy S23</a>",
+        ];
+
+        // Прев'ю має збігатися з тим, що прийде насправді: у стоковій OkayCMS
+        // колонки `rating` немає, тож і рядка з оцінкою в повідомленні не буде.
+        if (in_array('rating', CommentsEntity::getFields(), true)) {
+            $message[] = "Оцінка: ★★★★★ (5/5)";
+        }
+
+        $message = array_merge($message, [
             "",
             "Коментар:",
             "<i>Чудовий товар! Дуже задоволена якістю та швидкою доставкою. Рекомендую!</i>",
-        ];
+        ]);
 
         return implode("\n", $message);
     }
