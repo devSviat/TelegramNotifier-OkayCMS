@@ -273,4 +273,72 @@ class FormatterHelperTest extends TestCase
 
         self::assertStringContainsString('100 ₴', $message);
     }
+
+    /**
+     * Оцінки може не бути: у стоковій OkayCMS колонки `rating` немає взагалі,
+     * а до статей вона не обов'язкова. Рядок додається лише тоді, коли оцінка
+     * справді є.
+     *
+     * @dataProvider commentRatingProvider
+     */
+    #[DataProvider('commentRatingProvider')]
+    public function testRatingLineAppearsOnlyWhenThereIsARating(object $comment, ?string $expected): void
+    {
+        $message = $this->formatter->formatCommentMessage($comment);
+
+        if ($expected === null) {
+            $this->assertStringNotContainsString('Оцінка:', $message);
+
+            return;
+        }
+
+        $this->assertStringContainsString($expected, $message);
+    }
+
+    public static function commentRatingProvider(): array
+    {
+        $base = ['type' => 'product', 'name' => 'Клієнт', 'email' => 'c@example.com', 'text' => 'Текст'];
+
+        return [
+            'товар з оцінкою' => [(object)($base + ['rating' => 5]), 'Оцінка: ★★★★★ (5/5)'],
+            'половина шкали' => [(object)($base + ['rating' => 3]), 'Оцінка: ★★★☆☆ (3/5)'],
+            // PDO віддає tinyint рядком, тож приведення типу має бути на місці.
+            'оцінка рядком' => [(object)($base + ['rating' => '4']), 'Оцінка: ★★★★☆ (4/5)'],
+            'стаття без оцінки' => [(object)(['type' => 'post'] + $base + ['rating' => null]), null],
+            'стокова CMS: поля немає' => [(object)$base, null],
+            'нуль оцінкою не є' => [(object)($base + ['rating' => 0]), null],
+            // Значення поза шкалою зіпсувало б рядок зірок.
+            'вище шкали' => [(object)($base + ['rating' => 99]), 'Оцінка: ★★★★★ (5/5)'],
+            'нижче шкали' => [(object)($base + ['rating' => -3]), 'Оцінка: ★☆☆☆☆ (1/5)'],
+        ];
+    }
+
+    /**
+     * Прев'ю в адмінці показує, як виглядатиме повідомлення. Воно має
+     * збігатися з реальністю на обох CMS: там, де колонки `rating` немає,
+     * рядка з оцінкою не буде ні в прикладі, ні в справжньому сповіщенні.
+     */
+    public function testExamplePreviewMatchesWhetherRatingsExist(): void
+    {
+        // Прев'ю будує абсолютний URL через Request::getRootUrl(), а той читає
+        // $_SERVER напряму - у CLI цих ключів немає.
+        $server = $_SERVER;
+        $_SERVER += ['SERVER_PROTOCOL' => 'HTTP/1.1', 'SERVER_PORT' => 80, 'HTTP_HOST' => 'example.com'];
+
+        try {
+            $reflector = new \ReflectionClass(\Okay\Modules\Sviat\TelegramNotifier\Helpers\ExampleMessageHelper::class);
+            $example = $reflector->newInstanceWithoutConstructor();
+            $preview = $reflector->getMethod('getExampleCommentMessage')->invoke($example);
+        } finally {
+            $_SERVER = $server;
+        }
+
+        $ratingsExist = in_array('rating', \Okay\Entities\CommentsEntity::getFields(), true);
+
+        $this->assertSame(
+            $ratingsExist,
+            str_contains($preview, 'Оцінка:'),
+            "прев'ю розходиться з тим, чи підтримує ця CMS оцінки"
+        );
+    }
 }
