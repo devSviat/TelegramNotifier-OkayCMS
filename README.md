@@ -31,7 +31,7 @@
 
 ## Вимоги
 
-- OkayCMS v4.5.2
+- OkayCMS v4.5.3 (чиста або [форк](https://github.com/devSviat/OkayCMS)); PHP 7.4 або 8.1–8.5
 - Telegram Bot Token (отримати можна через [@BotFather](https://t.me/BotFather))
 - Chat ID Telegram чату або користувача, куди будуть надсилатися сповіщення
 - Для щомісячної статистики — налаштований планувальник крон-завдань (наприклад, `php console.php scheduler:run` щохвилини)
