@@ -211,7 +211,7 @@ class FrontExtender implements ExtensionInterface
             }
         } catch (\Throwable $e) {
             // Якщо модуль PartsSelection не встановлений, просто ігноруємо помилку
-            if (strpos($e->getMessage(), 'PartsSelection') === false && strpos($e->getMessage(), 'class FrontExtender found') === false) {
+            if (!str_contains($e->getMessage(), 'PartsSelection') && !str_contains($e->getMessage(), 'class FrontExtender found')) {
                 error_log('TelegramNotifier: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
             }
         }

@@ -71,12 +71,12 @@ class Init extends AbstractInit
                     [FrontExtender::class, 'addPartsSelectionProcedure']
                 );
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             // Якщо модуль PartsSelection не встановлений, просто ігноруємо помилку
         }
 
         $this->registerSchedule(
-            (new Schedule([TelegramCronHelper::class, 'sendMonthlyOrderStats']))
+            new Schedule([TelegramCronHelper::class, 'sendMonthlyOrderStats'])
                 ->name('Telegram: monthly order stats')
                 ->time('0 9 1 * *')
                 ->overlap(false)

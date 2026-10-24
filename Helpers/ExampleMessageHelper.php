@@ -170,7 +170,7 @@ class ExampleMessageHelper
         
         // Якщо метод не знайшов назву товару, додамо її вручну для прикладу
         $escapedUrl = htmlspecialchars($exampleUrl, ENT_QUOTES, 'UTF-8');
-        if (strpos($formattedMessage, 'iPhone 15') === false && strpos($formattedMessage, $exampleUrl) !== false) {
+        if (!str_contains($formattedMessage, 'iPhone 15') && str_contains($formattedMessage, $exampleUrl)) {
             $formattedMessage = str_replace(
                 "Сторінка: {$exampleUrl}",
                 "Сторінка: <a href=\"{$escapedUrl}\">iPhone 15</a>",

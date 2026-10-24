@@ -12,20 +12,20 @@ class TelegramHelper
     private Settings $settings;
     private FormatterHelper $formatterHelper;
     
-    private const MAX_MESSAGE_LENGTH = 4096;
-    private const CURL_TIMEOUT = 10;
-    private const CURL_CONNECT_TIMEOUT = 5;
+    private const int MAX_MESSAGE_LENGTH = 4096;
+    private const int CURL_TIMEOUT = 10;
+    private const int CURL_CONNECT_TIMEOUT = 5;
     
-    private const SETTING_ORDER_NOTIFY = 'sviat__telegram_notifier__order_notify_enabled';
-    private const SETTING_COMMENT_NOTIFY = 'sviat__telegram_notifier__comment_notify_enabled';
-    private const SETTING_FEEDBACK_NOTIFY = 'sviat__telegram_notifier__feedback_notify_enabled';
-    private const SETTING_CALLBACK_NOTIFY = 'sviat__telegram_notifier__callback_notify_enabled';
-    private const SETTING_PAID_ORDER_NOTIFY = 'sviat__telegram_notifier__paid_order_notify_enabled';
-    private const SETTING_PAID_ORDER_MESSAGE_TYPE = 'sviat__telegram_notifier__paid_order_message_type';
-    private const SETTING_ORDER_STATS = 'sviat__telegram_notifier__order_stats_enabled';
-    private const SETTING_PARTS_SELECTION_NOTIFY = 'sviat__telegram_notifier__parts_selection_notify_enabled';
-    private const SETTING_BOT_TOKEN = 'sviat__telegram_notifier__bot_token';
-    private const SETTING_CHAT_ID = 'sviat__telegram_notifier__chat_id';
+    private const string SETTING_ORDER_NOTIFY = 'sviat__telegram_notifier__order_notify_enabled';
+    private const string SETTING_COMMENT_NOTIFY = 'sviat__telegram_notifier__comment_notify_enabled';
+    private const string SETTING_FEEDBACK_NOTIFY = 'sviat__telegram_notifier__feedback_notify_enabled';
+    private const string SETTING_CALLBACK_NOTIFY = 'sviat__telegram_notifier__callback_notify_enabled';
+    private const string SETTING_PAID_ORDER_NOTIFY = 'sviat__telegram_notifier__paid_order_notify_enabled';
+    private const string SETTING_PAID_ORDER_MESSAGE_TYPE = 'sviat__telegram_notifier__paid_order_message_type';
+    private const string SETTING_ORDER_STATS = 'sviat__telegram_notifier__order_stats_enabled';
+    private const string SETTING_PARTS_SELECTION_NOTIFY = 'sviat__telegram_notifier__parts_selection_notify_enabled';
+    private const string SETTING_BOT_TOKEN = 'sviat__telegram_notifier__bot_token';
+    private const string SETTING_CHAT_ID = 'sviat__telegram_notifier__chat_id';
 
     public function __construct(
         Settings $settings,
