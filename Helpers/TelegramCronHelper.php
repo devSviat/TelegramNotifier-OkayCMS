@@ -152,9 +152,7 @@ class TelegramCronHelper
             if ($key === 0 && $name === '') {
                 continue;
             }
-            if (!isset($byProduct[$key])) {
-                $byProduct[$key] = ['name' => $name ?: 'ID ' . $key, 'amount' => 0];
-            }
+            $byProduct[$key] ??= ['name' => $name ?: 'ID ' . $key, 'amount' => 0];
             $byProduct[$key]['amount'] += (int) ($p->amount ?? 1);
         }
 

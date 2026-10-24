@@ -511,7 +511,7 @@ class FormatterHelper
             if ($page && !empty($page->name)) {
                 return $page->name;
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Якщо не вдалося отримати назву, повертаємо null
         }
 
@@ -598,7 +598,7 @@ class FormatterHelper
             $entity = $this->entityFactory->get($entityClass);
             $item = $entity->cols(['name'])->get($url);
             return $item->name ?? null;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }
