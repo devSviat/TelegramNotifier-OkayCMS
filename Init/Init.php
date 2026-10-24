@@ -49,6 +49,18 @@ class Init extends AbstractInit
             [FrontExtender::class, 'afterMarkedPaidUpdate']
         );
 
+        // Відгук за посиланням із листа ReviewRequests зберігається повз
+        // CommentsHelper::addCommentProcedure, тож слухаємо і його власну подію.
+        // method_exists, бо ядро відмовляє в реєстрації на відсутній клас, а
+        // без модуля його файлу немає: сайт без ReviewRequests нічого не помічає.
+        $reviewRequestReviews = \Okay\Modules\Sviat\ReviewRequests\Helpers\ReviewRequestReviews::class;
+        if (method_exists($reviewRequestReviews, 'create')) {
+            $this->registerQueueExtension(
+                [$reviewRequestReviews, 'create'],
+                [FrontExtender::class, 'addCommentProcedure']
+            );
+        }
+
         // Реєстрація extender для модуля PartsSelection (якщо встановлений)
         try {
             $partsSelectionEntityClass = \Okay\Modules\Sviat\PartsSelection\Entities\PartsSelectionEntity::class;
