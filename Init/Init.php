@@ -54,6 +54,7 @@ class Init extends AbstractInit
         // method_exists, бо ядро відмовляє в реєстрації на відсутній клас, а
         // без модуля його файлу немає: сайт без ReviewRequests нічого не помічає.
         $reviewRequestReviews = \Okay\Modules\Sviat\ReviewRequests\Helpers\ReviewRequestReviews::class;
+        // @phpstan-ignore function.alreadyNarrowedType (там, де аналізують із ReviewRequests, він є завжди; на сайті — ні)
         if (method_exists($reviewRequestReviews, 'create')) {
             $this->registerQueueExtension(
                 [$reviewRequestReviews, 'create'],
