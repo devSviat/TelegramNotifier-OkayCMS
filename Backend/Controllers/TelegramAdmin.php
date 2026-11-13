@@ -31,7 +31,12 @@ class TelegramAdmin extends IndexAdmin
             $this->settings->set('sviat__telegram_notifier__paid_order_message_type', in_array($paidOrderMessageType, ['short', 'full'], true) ? $paidOrderMessageType : 'full');
             $this->settings->set('sviat__telegram_notifier__order_stats_enabled', $this->request->post('order_stats_enabled', 'boolean') ? 1 : 0);
             $this->settings->set('sviat__telegram_notifier__parts_selection_notify_enabled', $this->request->post('parts_selection_notify_enabled', 'boolean') ? 1 : 0);
-            $this->settings->set('sviat__telegram_notifier__bot_token', $this->request->post('bot_token'));
+            // Токен у форму не повертається, тож порожнє поле означає «лишити збережений».
+            $botToken = $this->request->post('bot_token');
+            $botToken = is_string($botToken) ? trim($botToken) : '';
+            if ($botToken !== '') {
+                $this->settings->set('sviat__telegram_notifier__bot_token', $botToken);
+            }
             $this->settings->set('sviat__telegram_notifier__chat_id', $this->request->post('chat_id'));
             $this->settings->set('sviat__telegram_notifier__product_format', $this->request->post('product_format'));
 
@@ -47,7 +52,7 @@ class TelegramAdmin extends IndexAdmin
         $paidOrderMessageType = $this->settings->get('sviat__telegram_notifier__paid_order_message_type') ?: 'full';
         $this->design->assign('paid_order_message_type', $paidOrderMessageType);
         $this->design->assign('order_stats_enabled', $this->settings->get('sviat__telegram_notifier__order_stats_enabled'));
-        $this->design->assign('bot_token', $this->settings->get('sviat__telegram_notifier__bot_token'));
+        $this->design->assign('bot_token_is_set', (string) $this->settings->get('sviat__telegram_notifier__bot_token') !== '');
         $this->design->assign('chat_id', $this->settings->get('sviat__telegram_notifier__chat_id'));
         $this->design->assign('product_format', $this->settings->get('sviat__telegram_notifier__product_format'));
         $this->design->assign('example_order_message', $exampleMessageHelper->getExampleOrderMessageHtml());

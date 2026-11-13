@@ -48,8 +48,9 @@
                                 </i>
                             </div>
                             <div class="mb-1">
-                                <input type="text" name="bot_token" id="bot_token" class="form-control"
-                                    value="{$bot_token|escape}" placeholder="bot123456789:ABCdefGHIjklMNOpqrsTUVwxyz">
+                                <input type="password" name="bot_token" id="bot_token" class="form-control" value="" autocomplete="new-password"
+                                    data-token-set="{if $bot_token_is_set}1{else}0{/if}"
+                                    placeholder="{if $bot_token_is_set}{$btr->sviat_telegram_notifier_bot_token_keep|escape}{else}bot123456789:ABCdefGHIjklMNOpqrsTUVwxyz{/if}">
                                 <div class="telegram-error-message" id="bot_token_error" style="display: none;"></div>
                             </div>
                         </div>

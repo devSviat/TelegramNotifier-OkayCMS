@@ -38,3 +38,4 @@ $lang['sviat_telegram_notifier_docs_chat_id'] = 'How to get Chat ID:';
 $lang['sviat_telegram_notifier_docs_chat_id_text'] = '1. For personal chat: find @userinfobot and send it a message to find out your user ID.<br>2. For group/channel:<br>&nbsp;&nbsp;a) Add the bot to the group/channel.<br>&nbsp;&nbsp;b) Send any message in the group/channel.<br>3. Use @getidsbot or other bots to get the ID.<br>4. Chat ID for groups/channels usually starts with -100 (e.g., -1001234567890).';
 $lang['sviat_telegram_notifier_parts_selection_notify_title'] = 'Parts Selection Request';
 $lang['sviat_telegram_notifier_parts_selection_notify_enable'] = 'Enable notifications';
+$lang['sviat_telegram_notifier_bot_token_keep'] = 'A token is saved. Leave the field empty to keep it';
