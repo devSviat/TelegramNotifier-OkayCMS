@@ -81,8 +81,9 @@ $(function(){
 
     // Валідація Bot Token
     function validateBotToken(token) {
+        // Збережений токен у поле не повертається: порожнє поле лишає його.
         if (!token) {
-            return telegramErrors.emptyToken;
+            return $('#bot_token').data('token-set') === 1 ? '' : telegramErrors.emptyToken;
         }
         if (!token.match(/^bot\d+:[A-Za-z0-9_-]+$/)) {
             return telegramErrors.invalidToken;

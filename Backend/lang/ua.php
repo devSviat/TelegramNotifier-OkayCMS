@@ -38,3 +38,4 @@ $lang['sviat_telegram_notifier_docs_chat_id'] = 'Як отримати Chat ID:'
 $lang['sviat_telegram_notifier_docs_chat_id_text'] = '1. Для особистого чату: знайдіть @userinfobot та надішліть йому повідомлення, щоб дізнатися свій user ID.<br>2. Для групи/каналу:<br>&nbsp;&nbsp;a) Додайте бота до групи/каналу.<br>&nbsp;&nbsp;b) Надішліть будь-яке повідомлення у групі/каналі.<br>3. Використайте @getidsbot або інші боти для отримання ID.<br>4. Chat ID для груп/каналів зазвичай починається з -100 (наприклад: -1001234567890).';
 $lang['sviat_telegram_notifier_parts_selection_notify_title'] = 'Запит на підбір запчастин';
 $lang['sviat_telegram_notifier_parts_selection_notify_enable'] = 'Увімкнути сповіщення';
+$lang['sviat_telegram_notifier_bot_token_keep'] = 'Токен збережено. Залиште поле порожнім, щоб не змінювати його';
